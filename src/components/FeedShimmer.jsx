@@ -4,8 +4,8 @@ import React from "react";
 const FeedShimmer = () => {
   return (
     <div className="flex items-center justify-center p-4">
-      <div className="relative w-96 h-[600px] rounded-3xl overflow-hidden shadow-2xl bg-base-200">
-        <div className="relative h-80 bg-gradient-to-r from-gray-300 via-gray-200 to-gray-300 animate-shimmer bg-[length:200%_100%]">
+      <div className="relative w-96 h-150 rounded-3xl overflow-hidden shadow-2xl bg-base-200">
+        <div className="relative h-80 bg-linear-to-r from-gray-300 via-gray-200 to-gray-300 animate-shimmer bg-size-[200%_100%]">
           <div className="absolute top-4 right-4">
             <div className="w-12 h-7 bg-white/30 rounded-full animate-pulse"></div>
           </div>
@@ -15,7 +15,7 @@ const FeedShimmer = () => {
           </div>
         </div>
 
-        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-gray-900 via-gray-900/95 to-transparent pt-8 pb-6 px-6">
+        <div className="absolute bottom-0 left-0 right-0 bg-linear-to-trom-gray-900 via-gray-900/95 to-transparent pt-8 pb-6 px-6">
           <div className="mb-3">
             <div className="flex items-center gap-2 mb-2">
               <div className="h-8 w-32 bg-gray-700 rounded animate-pulse"></div>

@@ -50,7 +50,7 @@ const UserCard = ({ user }) => {
   return (
     <div className="flex items-center justify-center p-4">
       <div 
-        className={`relative w-96 h-[600px] rounded-3xl overflow-hidden shadow-2xl bg-base-200 transition-all duration-700 ease-out
+        className={`relative w-96 h-150 rounded-3xl overflow-hidden shadow-2xl bg-base-200 transition-all duration-700 ease-out
           ${exitDirection === 'left' ? 'translate-x-[-150%] -rotate-12 opacity-0' : ''}
           ${exitDirection === 'right' ? 'translate-x-[150%] rotate-12 opacity-0' : ''}
           ${!exitDirection ? 'animate-[slideIn_0.6s_ease-out]' : ''}
@@ -66,7 +66,7 @@ const UserCard = ({ user }) => {
             className="w-full h-full object-cover"
           />
 
-          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
+          <div className="absolute inset-0 bg-linear-to-trom-black via-black/50 to-transparent" />
 
           <div className="absolute top-4 right-4 flex gap-2">
             {age && (
@@ -101,7 +101,7 @@ const UserCard = ({ user }) => {
           )}
         </div>
 
-        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-gray-900 via-gray-900/95 to-transparent pt-8 pb-6 px-6">
+        <div className="absolute bottom-0 left-0 right-0 bg-linear-to-t from-gray-900 via-gray-900/95 to-transparent pt-8 pb-6 px-6">
           <div className="mb-3">
             <div className="flex items-center gap-2">
               <h2 className="text-3xl font-bold text-white">
@@ -118,7 +118,7 @@ const UserCard = ({ user }) => {
                 </span>
               )}
             </div>
-            <div className="h-1 w-20 bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500 rounded-full mt-2"></div>
+            <div className="h-1 w-20 bg-linear-to-r from-purple-500 via-pink-500 to-orange-500 rounded-full mt-2"></div>
           </div>
 
           {description && (
@@ -132,7 +132,7 @@ const UserCard = ({ user }) => {
               {skills.slice(0, 4).map((skill, index) => (
                 <span
                   key={index}
-                  className="px-3 py-1.5 bg-gradient-to-r from-purple-500/20 to-pink-500/20 border border-purple-400/30 rounded-full text-white text-xs font-medium backdrop-blur-sm hover:border-purple-400/50 transition-colors"
+                  className="px-3 py-1.5 bg-linear-to-r from-purple-500/20 to-pink-500/20 border border-purple-400/30 rounded-full text-white text-xs font-medium backdrop-blur-sm hover:border-purple-400/50 transition-colors"
                 >
                   {skill}
                 </span>
@@ -144,7 +144,7 @@ const UserCard = ({ user }) => {
             <button 
               onClick={() => handleAction("pass")}
               disabled={isLoading || !isMounted}
-              className={`group relative w-14 h-14 rounded-full bg-gradient-to-br from-red-500 to-pink-500 flex items-center justify-center shadow-lg hover:shadow-red-500/50 transition-all duration-300 hover:scale-110 active:scale-95 ${isLoading ? 'opacity-50 cursor-wait' : 'cursor-pointer'}`}
+              className={`group relative w-14 h-14 rounded-full bg-linear-to-br from-red-500 to-pink-500 flex items-center justify-center shadow-lg hover:shadow-red-500/50 transition-all duration-300 hover:scale-110 active:scale-95 ${isLoading ? 'opacity-50 cursor-wait' : 'cursor-pointer'}`}
             >
               {isLoading && exitDirection === 'left' ? (
                 <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
@@ -161,7 +161,7 @@ const UserCard = ({ user }) => {
             <button 
               onClick={() => handleAction("like")}
               disabled={isLoading || !isMounted}
-              className={`group relative w-16 h-16 rounded-full bg-gradient-to-br from-pink-500 via-red-500 to-orange-500 flex items-center justify-center shadow-2xl hover:shadow-pink-500/50 transition-all duration-300 hover:scale-125 active:scale-95 z-10 ${isLoading ? 'opacity-50 cursor-wait' : 'cursor-pointer'}`}
+              className={`group relative w-16 h-16 rounded-full bg-linear-to-br from-pink-500 via-red-500 to-orange-500 flex items-center justify-center shadow-2xl hover:shadow-pink-500/50 transition-all duration-300 hover:scale-125 active:scale-95 z-10 ${isLoading ? 'opacity-50 cursor-wait' : 'cursor-pointer'}`}
             >
               {isLoading && exitDirection === 'right' ? (
                 <div className="w-8 h-8 border-3 border-white border-t-transparent rounded-full animate-spin"></div>
@@ -177,7 +177,7 @@ const UserCard = ({ user }) => {
 
             <button 
               disabled={isLoading}
-              className={`group relative w-14 h-14 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center shadow-lg hover:shadow-blue-500/50 transition-all duration-300 hover:scale-110 active:scale-95 ${isLoading ? 'opacity-50 cursor-wait' : 'cursor-pointer'}`}
+              className={`group relative w-14 h-14 rounded-full bg-linear-to-br from-blue-500 to-cyan-500 flex items-center justify-center shadow-lg hover:shadow-blue-500/50 transition-all duration-300 hover:scale-110 active:scale-95 ${isLoading ? 'opacity-50 cursor-wait' : 'cursor-pointer'}`}
             >
               {isLoading ? (
                 <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
