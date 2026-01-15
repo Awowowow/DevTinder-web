@@ -28,7 +28,7 @@ const UserCard = ({ user }) => {
       setTimeout(() => {
         dispatch(removeFeed(_id));
         setIsLoading(false);
-      }, 700);
+      }, 400);
     } catch (err) {
       console.error(`Error on ${type}:`, err);
       setIsLoading(false);
@@ -44,7 +44,23 @@ const UserCard = ({ user }) => {
     return () => clearTimeout(timer);
   }, []);
   
-  
+  useEffect(() => {
+    const handleKeyPress = (e) => {
+      if (isLoading || !isMounted) return;
+      
+      switch(e.key) {
+        case 'ArrowLeft':
+          handleAction("pass");
+          break;
+        case 'ArrowRight':
+          handleAction("like");
+          break;
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyPress);
+    return () => window.removeEventListener('keydown', handleKeyPress);
+  }, [isLoading, isMounted]);
   
 
   return (
@@ -140,16 +156,16 @@ const UserCard = ({ user }) => {
             </div>
           )}
 
-          <div className="flex justify-center gap-4 pt-2">
+          <div className="flex justify-center gap-6 pt-2">
             <button 
               onClick={() => handleAction("pass")}
               disabled={isLoading || !isMounted}
-              className={`group relative w-14 h-14 rounded-full bg-linear-to-br from-red-500 to-pink-500 flex items-center justify-center shadow-lg hover:shadow-red-500/50 transition-all duration-300 hover:scale-110 active:scale-95 ${isLoading ? 'opacity-50 cursor-wait' : 'cursor-pointer'}`}
+              className={`group relative w-16 h-16 rounded-full bg-linear-to-br from-red-500 to-pink-500 flex items-center justify-center shadow-lg hover:shadow-red-500/50 transition-all duration-300 hover:scale-110 active:scale-95 ${isLoading ? 'opacity-50 cursor-wait' : 'cursor-pointer'}`}
             >
               {isLoading && exitDirection === 'left' ? (
                 <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
               ) : (
-                <span className="text-2xl">✕</span>
+                <span className="text-3xl">✕</span>
               )}
               <div className="absolute -top-9 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 group-hover:-translate-y-1 transition-all duration-200 pointer-events-none">
                 <span className="px-2 py-0.5 rounded-full bg-black/60 text-xs text-white backdrop-blur-sm whitespace-nowrap">
@@ -161,7 +177,7 @@ const UserCard = ({ user }) => {
             <button 
               onClick={() => handleAction("like")}
               disabled={isLoading || !isMounted}
-              className={`group relative w-16 h-16 rounded-full bg-linear-to-br from-pink-500 via-red-500 to-orange-500 flex items-center justify-center shadow-2xl hover:shadow-pink-500/50 transition-all duration-300 hover:scale-125 active:scale-95 z-10 ${isLoading ? 'opacity-50 cursor-wait' : 'cursor-pointer'}`}
+              className={`group relative w-16 h-16 rounded-full bg-linear-to-br from-pink-500 via-red-500 to-orange-500 flex items-center justify-center shadow-2xl hover:shadow-pink-500/50 transition-all duration-300 hover:scale-110 active:scale-95 ${isLoading ? 'opacity-50 cursor-wait' : 'cursor-pointer'}`}
             >
               {isLoading && exitDirection === 'right' ? (
                 <div className="w-8 h-8 border-3 border-white border-t-transparent rounded-full animate-spin"></div>
@@ -171,22 +187,6 @@ const UserCard = ({ user }) => {
               <div className="absolute -top-10 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 group-hover:-translate-y-1 transition-all duration-200 pointer-events-none">
                 <span className="px-2 py-0.5 rounded-full bg-black/60 text-xs text-white backdrop-blur-sm whitespace-nowrap">
                   Like
-                </span>
-              </div>
-            </button>
-
-            <button 
-              disabled={isLoading}
-              className={`group relative w-14 h-14 rounded-full bg-linear-to-br from-blue-500 to-cyan-500 flex items-center justify-center shadow-lg hover:shadow-blue-500/50 transition-all duration-300 hover:scale-110 active:scale-95 ${isLoading ? 'opacity-50 cursor-wait' : 'cursor-pointer'}`}
-            >
-              {isLoading ? (
-                <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-              ) : (
-                <span className="text-2xl">⭐</span>
-              )}
-              <div className="absolute -top-9 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 group-hover:-translate-y-1 transition-all duration-200 pointer-events-none">
-                <span className="px-2 py-0.5 rounded-full bg-black/60 text-xs text-white backdrop-blur-sm whitespace-nowrap">
-                  Super Like
                 </span>
               </div>
             </button>

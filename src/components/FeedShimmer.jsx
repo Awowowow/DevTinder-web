@@ -15,7 +15,7 @@ const FeedShimmer = () => {
           </div>
         </div>
 
-        <div className="absolute bottom-0 left-0 right-0 bg-linear-to-trom-gray-900 via-gray-900/95 to-transparent pt-8 pb-6 px-6">
+        <div className="absolute bottom-0 left-0 right-0  rom-gray-900 via-gray-900/95 to-transparent pt-8 pb-6 px-6">
           <div className="mb-3">
             <div className="flex items-center gap-2 mb-2">
               <div className="h-8 w-32 bg-gray-700 rounded animate-pulse"></div>
