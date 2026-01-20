@@ -29,6 +29,12 @@ const Feed = () => {
     getFeed();
   }, []);
 
+  useEffect(() => {
+    if (!feed || feed.length === 0) {
+      setCurrentIndex(0);
+    }
+  }, [feed]);
+  
   if (isLoading) {
     return (
       <div className="flex justify-center">
@@ -41,17 +47,17 @@ const Feed = () => {
     return <div className="text-center mt-10">No users found</div>;
   }
 
-  const user = feed[currentIndex];
+  const currentUser = feed?.[currentIndex];
 
-  if (!user || !user._id) {
-    return <div className="text-center mt-10">No more users</div>;
-  }
+if (!currentUser || !currentUser._id) {
+  return <div className="text-center mt-10">No more users</div>;
+}
 
-  return (
-    <div className="flex justify-center">
-      <UserCard key={user._id} user={user} />
-    </div>
-  );
+return (
+  <div className="flex justify-center">
+    <UserCard key={currentUser._id} user={currentUser} />
+  </div>
+);
 };
 
 export default Feed;
