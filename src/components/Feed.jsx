@@ -3,9 +3,8 @@ import React, { useEffect, useState } from "react";
 import { BASE_URL } from "../utils/constants";
 import { useDispatch, useSelector } from "react-redux";
 import { addFeed } from "../utils/feedSlice";
-import UserCard from "./UserCard"
+import UserCard from "./UserCard";
 import FeedShimmer from "./FeedShimmer";
-
 
 const Feed = () => {
   const feed = useSelector((store) => store.feed);
@@ -14,17 +13,14 @@ const Feed = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   const getFeed = async () => {
-    if (feed && feed.length > 0) {
-      setIsLoading(false)
-    };
     try {
       const res = await axios.get(BASE_URL + "/feed", {
         withCredentials: true,
       });
-      dispatch(addFeed(res.data.data));
-      setIsLoading(false);
+      dispatch(addFeed(res.data.data || []));
     } catch (err) {
       console.error("Error fetching feed:", err);
+    } finally {
       setIsLoading(false);
     }
   };
@@ -41,17 +37,19 @@ const Feed = () => {
     );
   }
 
+  if (!Array.isArray(feed) || feed.length === 0) {
+    return <div className="text-center mt-10">No users found</div>;
+  }
 
-  if (!feed || feed.length === 0) return null;
+  const user = feed[currentIndex];
 
-  if (currentIndex >= feed.length) {
+  if (!user || !user._id) {
     return <div className="text-center mt-10">No more users</div>;
   }
-  
 
   return (
     <div className="flex justify-center">
-      <UserCard key={feed[currentIndex]._id} user={feed[currentIndex]} />
+      <UserCard key={user._id} user={user} />
     </div>
   );
 };
