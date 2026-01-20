@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addRequest, removeFeed } from '../utils/requestSlice';
+import { addRequest, removeRequest } from '../utils/requestSlice';
 import { BASE_URL } from '../utils/constants';
 import RequestsShimmer from './RequestsShimmer';
 
@@ -34,7 +34,7 @@ const Requests = () => {
       {withCredentials: true,}
     );
 
-    dispatch(removeFeed(requestId))
+    dispatch(removeRequest(requestId))
 
     }catch(err){
       console.log(err);

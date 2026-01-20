@@ -1,6 +1,4 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { BASE_URL } from "../utils/constants";
 import { useDispatch } from "react-redux";
 import { removeFeed } from "../utils/feedSlice";
 import { sendLikeRequest, sendPassRequest } from "../utils/userRequests";
