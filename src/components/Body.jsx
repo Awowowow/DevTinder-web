@@ -17,20 +17,20 @@ const Body = () => {
   const location = useLocation();
 
   const fetchUser = async () => {
-    if (userData) return;
-    
     try {
       const res = await axios.get(BASE_URL + "/profile/view", {
         withCredentials: true,
       });
-      dispatch(addUser(res.data));
+      dispatch(addUser(res.data.data ?? res.data));
     } catch (err) {
       if (err.response?.status === 401) {
+        dispatch(addUser(null));
         navigate("/login");
       }
       console.error("Error fetching user:", err);
     }
   };
+  
 
   useEffect(() => {
     fetchUser();
