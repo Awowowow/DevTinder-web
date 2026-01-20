@@ -34,7 +34,7 @@ const Feed = () => {
       setCurrentIndex(0);
     }
   }, [feed]);
-  
+
   if (isLoading) {
     return (
       <div className="flex justify-center">
@@ -42,6 +42,10 @@ const Feed = () => {
       </div>
     );
   }
+  console.log("FEED STATE:", feed);
+console.log("CURRENT INDEX:", currentIndex);
+console.log("FEED AT INDEX:", feed?.[currentIndex]);
+
 
   if (!Array.isArray(feed) || feed.length === 0) {
     return <div className="text-center mt-10">No users found</div>;
