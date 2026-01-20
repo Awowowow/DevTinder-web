@@ -61,5 +61,5 @@ console.log("FEED AT INDEX:", feed?.[currentIndex]);
       <UserCard key={currentUser._id} user={currentUser} />
     </div>
   );
-
+}
 export default Feed;
