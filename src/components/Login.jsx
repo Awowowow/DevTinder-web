@@ -23,13 +23,13 @@ const Login = () => {
         { emailId, password },
         { withCredentials: true }
       );
-      dispatch(addUser(res.data));
+      dispatch(addUser(res.data.data));
       return navigate("/");
     } catch (err) {
       if (password === "" || emailId === "") {
         setError("Error: Both Email and password are required");
       } else {
-        setError(err?.response?.data || "something went wrong");
+        setError(err?.response?.data.error || "something went wrong");
       }
     }
   };
@@ -41,8 +41,8 @@ const Login = () => {
         { firstName, lastName, emailId, password },
         { withCredentials: true }
       );
-      if(res.data){
-        dispatch(addUser(res.data));
+      if(res.data.data){
+        dispatch(addUser(res.data.data));
         navigate("/")
       }
     } catch (err) {

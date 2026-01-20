@@ -81,6 +81,7 @@ const Requests = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {requests.map((request) => {
             const user = request.fromUserId;
+            if(!user) return null;
             
             return (
               <div
