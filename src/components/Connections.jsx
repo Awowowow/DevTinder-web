@@ -4,10 +4,12 @@ import { BASE_URL } from '../utils/constants'
 import { useDispatch, useSelector } from 'react-redux'
 import { addConnections } from '../utils/connectionSlice'
 import ConnectionsShimmer from './ConnectionShimmer'
+import { useNavigate } from 'react-router-dom'
 
 const Connections = () => {
   const userConnections = useSelector(store => store.connections);
   const dispatch = useDispatch();
+  const navigate = useNavigate()
   const [loading, setLoading] = useState(true);
   const fetchConnection = async() => {
     try {
@@ -105,7 +107,6 @@ const Connections = () => {
                         onClick={() => {
                           // Navigate to user profile
                           // Example: navigate(`/profile/${connection._id}`)
-                          console.log('View profile:', connection._id);
                         }}
                         className="flex-1 bg-gradient-to-r from-purple-500 to-blue-500 text-white py-2 px-4 rounded-lg hover:from-purple-600 hover:to-blue-600 transition-all duration-200 font-medium cursor-pointer"
                       >
@@ -113,8 +114,7 @@ const Connections = () => {
                       </button>
                       <button 
                         onClick={() => {
-                          // Example: navigate(`/chat/${connection._id}`)
-                          console.log('Message user:', connection._id);
+                          navigate(`/chat/${connection._id}`)
                         }}
                         className="p-2 bg-gray-100 border-2 border-gray-300 rounded-lg hover:border-purple-500 hover:bg-purple-50 hover:text-purple-500 transition-all duration-200 text-gray-700 cursor-pointer"
                       >

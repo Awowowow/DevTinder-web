@@ -60,7 +60,7 @@ const Requests = () => {
 
   if (!requests || requests.length === 0) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-pink-50 via-purple-50 to-blue-50 flex items-center justify-center p-4">
+      <div className="min-h-screen bg-linear-to-br from-pink-50 via-purple-50 to-blue-50 flex items-center justify-center p-4">
         <div className="text-center">
           <div className="text-6xl mb-4">💌</div>
           <h2 className="text-2xl font-bold text-gray-700 mb-2">No Requests Yet</h2>
@@ -71,7 +71,7 @@ const Requests = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pink-50 via-purple-50 to-blue-50 py-8 px-4">
+    <div className="min-h-screen bg-linear-to-br from-pink-50 via-purple-50 to-blue-50 py-8 px-4">
       <div className="max-w-6xl mx-auto">
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-gray-800 mb-2">Connection Requests</h1>
@@ -88,13 +88,13 @@ const Requests = () => {
                 key={request._id}
                 className="bg-white rounded-2xl shadow-lg overflow-hidden transform transition-all duration-300 hover:scale-105 hover:shadow-2xl"
               >
-                <div className="relative h-64 overflow-hidden bg-gradient-to-br from-pink-400 to-purple-500">
+                <div className="relative h-64 overflow-hidden bg-linear-to-br from-pink-400 to-purple-500">
                   <img
                     src={user.photoUrl}
                     alt={`${user.firstName} ${user.lastName}`}
                     className="w-full h-full object-cover"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
+                  <div className="absolute inset-0 bg-linear-to-t from-black/60 via-black/20 to-transparent"></div>
                   
                   <div className="absolute bottom-4 left-4 text-white">
                     <h3 className="text-2xl font-bold">
@@ -133,7 +133,7 @@ const Requests = () => {
                     
                     <button
                       onClick={() => handleAccept(request._id)}
-                      className="flex-1 py-3 bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white rounded-xl font-semibold transition-all duration-200 flex items-center justify-center gap-2 shadow-md hover:shadow-lg cursor-pointer"
+                      className="flex-1 py-3 bg-linear-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white rounded-xl font-semibold transition-all duration-200 flex items-center justify-center gap-2 shadow-md hover:shadow-lg cursor-pointer"
                     >
                       <span className="text-xl">♥</span>
                       <span>Accept</span>

@@ -23,6 +23,7 @@ const Login = () => {
         { emailId, password },
         { withCredentials: true }
       );
+      localStorage.setItem("token", res.data.token)
       dispatch(addUser(res.data.data));
       return navigate("/");
     } catch (err) {
@@ -55,7 +56,7 @@ const Login = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-4">
+    <div className="flex justify-center items-center min-h-screen bg-linear-to-br from-slate-900 via-purple-900 to-slate-900 p-4">
       <div className="w-full max-w-md">
         <div className="bg-slate-800 rounded-2xl shadow-2xl p-8 border border-slate-700">
           <div className="text-center mb-8">
@@ -142,7 +143,7 @@ const Login = () => {
               <button
                 type="submit"
                 onClick={isSignIn ? handleLogin : handleSignUP}
-                className="w-full py-3 px-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold rounded-lg hover:from-purple-700 hover:to-pink-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-slate-800 transition transform hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
+                className="w-full py-3 px-4 bg-linear-to-r from-purple-600 to-pink-600 text-white font-semibold rounded-lg hover:from-purple-700 hover:to-pink-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-slate-800 transition transform hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
               >
                 {isSignIn ? "Sign In" : "Sign Up"}
               </button>

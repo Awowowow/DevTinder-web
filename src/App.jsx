@@ -13,6 +13,7 @@ import RefundPolicy from "./components/RefundPolicy";
 import CookiePolicy from "./components/CookiePolicy";
 import AboutUs from "./components/AboutUs";
 import Contact from "./components/Contact";
+import Chat from "./components/Chat";
 
 
 function App() {
@@ -33,6 +34,7 @@ function App() {
             <Route path="cookie-policy" element={<CookiePolicy />} />
             <Route path="about" element={<AboutUs />} />
             <Route path="contact" element={<Contact />} />
+            <Route path = "/chat/:toUserId" element={<Chat />} />
           </Route>
           </Routes>
       </BrowserRouter>

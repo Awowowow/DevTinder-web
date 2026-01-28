@@ -34,7 +34,8 @@ const Body = () => {
     fetchUser();
   }, []);
 
-  const showSidebar = location.pathname === "/";
+  const showSidebar = location.pathname === "/" || location.pathname.startsWith("/chat");
+  const showFotter = location.pathname ==="/";
 
   return (
     <div className="flex flex-col min-h-screen bg-gradient-to-br from-purple-100 via-pink-100 to-orange-100">
@@ -50,8 +51,9 @@ const Body = () => {
           <Outlet />
         </section>
       </main>
-
+      {showFotter &&(
       <Footer />
+)}
     </div>
   );
 };
