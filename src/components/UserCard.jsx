@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { removeFeed } from "../utils/feedSlice";
 import { sendLikeRequest, sendPassRequest } from "../utils/userRequests";
@@ -9,10 +9,9 @@ const UserCard = ({ user }) => {
   const [exitDirection, setExitDirection] = useState(null);
   const [isMounted, setIsMounted] = useState(false);
 
-  if (!user) return null;
-  const { _id, firstName, lastName, skills = [], age, photoUrl, description, gender } = user;
+  const { _id, firstName, lastName, skills = [], age, photoUrl, description, gender } = user || {};
 
-  const handleAction = async (type) => {
+  const handleAction = useCallback(async (type) => {
     if (isLoading || !isMounted) return;
   
     setIsLoading(true);
@@ -32,7 +31,7 @@ const UserCard = ({ user }) => {
       setIsLoading(false);
       setExitDirection(null);
     }
-  };
+  }, [_id, dispatch, isLoading, isMounted]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -58,7 +57,9 @@ const UserCard = ({ user }) => {
 
     window.addEventListener('keydown', handleKeyPress);
     return () => window.removeEventListener('keydown', handleKeyPress);
-  }, [isLoading, isMounted]);
+  }, [handleAction, isLoading, isMounted]);
+
+  if (!user) return null;
   
 
   return (

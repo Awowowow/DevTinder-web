@@ -30,7 +30,7 @@ const Requests = () => {
 
   const handleAccept = async(requestId) => {
     try{
-    const res = await axios.post(BASE_URL + "/request/review/accepted/" + requestId,{},
+    await axios.post(BASE_URL + "/request/review/accepted/" + requestId,{},
       {withCredentials: true,}
     );
 
@@ -43,11 +43,11 @@ const Requests = () => {
 
   const handleReject = async (requestId) => {
     try{
-      const res = await axios.post(BASE_URL + "/request/review/rejected/" + requestId,{},
+      await axios.post(BASE_URL + "/request/review/rejected/" + requestId,{},
         {withCredentials: true,}
       );
   
-      dispatch(removeFeed(requestId))
+      dispatch(removeRequest(requestId))
   
       }catch(err){
         console.log(err);

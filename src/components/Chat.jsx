@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { Send, Paperclip, Smile, MoreVertical, Search, Check, CheckCheck, ArrowLeft, Phone, Video } from 'lucide-react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { createSocketConnection } from '../utils/socket'
 import axios from 'axios'
@@ -9,20 +9,22 @@ import { BASE_URL } from '../utils/constants'
 const Chat = () => {
   const { toUserId } = useParams()
   const [messages, setMessages] = useState([])
-  const [chat, setChat] = useState();
   const [toUser, setToUser] = useState();
   const [newMessages, setNewMessages] = useState('')
+  const [chatError, setChatError] = useState('')
+  const [isConnected, setIsConnected] = useState(false)
   const user = useSelector((store) => store.user)
   const userId = user?._id
   const messagesContainerRef = useRef(null)
   const socketRef = useRef(null);
+  const navigate = useNavigate()
 
   const fetchToUser = async () => {
     if (!toUserId || !userId) return
     try {
       const res = await axios.get(`${BASE_URL}/chat/${toUserId}`, { withCredentials: true })
       const chatData = res.data.data
-      setChat(chatData)
+      setChatError('')
       
       const otherUser = chatData.participants.find(participant => 
         participant._id === toUserId
@@ -48,10 +50,13 @@ const Chat = () => {
         });
         
         setMessages(formattedMessages);
+      } else {
+        setMessages([]);
       }
 
     } catch (error) {
       console.error("Error fetching chat:", error)
+      setChatError(error.response?.data?.error || 'Unable to load this chat')
     }
   }
 
@@ -74,15 +79,32 @@ const Chat = () => {
     socketRef.current = createSocketConnection()
     const socket = socketRef.current
     
-    socket.emit('joinChat', { userId, toUserId })
+    socket.on('connect', () => {
+      setIsConnected(true)
+      setChatError('')
+      socket.emit('joinChat', { toUserId })
+    })
 
-    socket.on('messageRecivied', ({ text, senderId }) => {
+    socket.on('disconnect', () => {
+      setIsConnected(false)
+    })
+
+    socket.on('connect_error', () => {
+      setIsConnected(false)
+      setChatError('Unable to connect to chat. Please login again or try later.')
+    })
+
+    socket.on('chatError', ({ message }) => {
+      setChatError(message || 'Chat action failed')
+    })
+
+    socket.on('messageReceived', ({ text, senderId, createdAt }) => {
       setMessages((prev) => [
         ...prev,
         {
           text,
           sender: senderId?.toString() === userId?.toString() ? 'me' : 'other',
-          time: new Date().toLocaleTimeString('en-US', { 
+          time: new Date(createdAt || Date.now()).toLocaleTimeString('en-US', { 
             hour: '2-digit',
             minute: '2-digit'
           }),
@@ -92,15 +114,15 @@ const Chat = () => {
     })
 
     return () => {
-      socket.off('messageRecivied')
       socket.disconnect()
       socketRef.current = null
+      setIsConnected(false)
     }
   }, [userId, toUserId])
 
 
   const sendMessage = () => {
-    if (!newMessages.trim() || !socketRef.current) return
+    if (!newMessages.trim() || !socketRef.current || !isConnected) return
     socketRef.current.emit('sendMessage', {
       toUserId,
       text: newMessages
@@ -119,7 +141,7 @@ const Chat = () => {
     <div className="flex flex-col h-[calc(100vh-64px)] bg-[#e5ddd5]">
       <div className="bg-[#ededed] border-b border-gray-300 px-4 py-3 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <button className="lg:hidden p-2 rounded-full hover:bg-gray-300 cursor-pointer">
+          <button onClick={() => navigate('/connections')} className="lg:hidden p-2 rounded-full hover:bg-gray-300 cursor-pointer">
             <ArrowLeft className="w-5 h-5 text-gray-800" />
           </button>
           <div className="w-10 h-10 rounded-full bg-[#128c7e] flex items-center justify-center text-white font-semibold">
@@ -133,7 +155,9 @@ const Chat = () => {
             <p className="font-semibold text-sm text-gray-900">
               {toUser?.firstName} {toUser?.lastName}
             </p>
-            <p className="text-xs text-gray-600">online</p>
+            <p className="text-xs text-gray-600">
+              {toUser?.isOnline ? 'online' : 'offline'}
+            </p>
           </div>
         </div>
 
@@ -187,10 +211,22 @@ const Chat = () => {
               </div>
             )
           })}
+          {messages.length === 0 && !chatError && (
+            <div className="flex justify-center pt-12">
+              <span className="text-sm bg-white/80 text-gray-600 px-4 py-2 rounded-full shadow">
+                Start the conversation
+              </span>
+            </div>
+          )}
         </div>
       </div>
 
       <div className="bg-[#ededed] border-t border-gray-300 px-3 py-2">
+        {chatError && (
+          <div className="mb-2 rounded-md bg-red-50 px-3 py-2 text-sm text-red-700 border border-red-200">
+            {chatError}
+          </div>
+        )}
         <div className="flex items-center gap-2">
           <button className="p-2 rounded-full hover:bg-gray-300 cursor-pointer"><Smile className="text-gray-700" /></button>
           <button className="p-2 rounded-full hover:bg-gray-300 cursor-pointer"><Paperclip className="text-gray-700" /></button>
@@ -198,14 +234,14 @@ const Chat = () => {
           <input
             value={newMessages}
             onChange={(e) => setNewMessages(e.target.value)}
-            onKeyPress={handleKeyPress}
+            onKeyDown={handleKeyPress}
             placeholder="Type a message"
             className="flex-1 px-4 py-2 rounded-lg outline-none border border-gray-300 bg-white text-gray-900"
           />
 
           <button
             onClick={sendMessage}
-            disabled={!newMessages.trim()}
+            disabled={!newMessages.trim() || !isConnected}
             className="p-2.5 bg-[#128c7e] hover:bg-[#0b7a6a] rounded-full text-white disabled:opacity-40 cursor-pointer"
           >
             <Send size={18} className="text-white" />

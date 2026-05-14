@@ -1,9 +1,10 @@
 import io from "socket.io-client";
-import { BASE_URL } from "./constants";
+import { SOCKET_PATH, SOCKET_URL } from "./constants";
 
 export const createSocketConnection = () => {
-    const token = localStorage.getItem("token");
-    return io(BASE_URL,{
-        withCredentials: true
+    return io(SOCKET_URL, {
+        path: SOCKET_PATH,
+        withCredentials: true,
+        transports: ["websocket", "polling"],
     });
 };

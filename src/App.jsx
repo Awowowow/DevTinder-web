@@ -19,7 +19,7 @@ import Chat from "./components/Chat";
 function App() {
   return (
     <>
-    <Provider store = {appStore}>
+     <Provider store = {appStore}>
       <BrowserRouter basename="/">
         <Routes>
         <Route path="/login" element={<Login />} />
